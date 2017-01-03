@@ -1,0 +1,39 @@
+//
+// Typography
+//
+
+$font-size: 24px;
+$line-height: 24px;
+
+$system-stack: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+$serif-stack: 'times new roman', times, georgia, serif;
+$sans-serif-stack: helvetica, arial, sans-serif;
+$display-stack: "Comic Sans", "Comic Sans MS";
+
+
+
+//
+// Colors
+//
+
+$background-color: #fff;
+$main-color: #000;
+
+
+//
+// Space
+//
+
+// ***
+
+
+//
+//  Breakpoints
+//
+
+$breakpoints: (
+  'small': (max-width: 700px),
+  'medium': (max-width: 1000px),
+  'large': (max-width: 1600px),
+  'short': (max-height: 600px),
+);

@@ -1,0 +1,32 @@
+* {
+  &::selection {
+    background: $main-color;
+    color: $background-color;
+  }
+}
+
+body {
+  background: $background-color;
+  color: $main-color;
+  font-size: $font-size;
+  line-height: $line-height;
+  font-family: $system-stack;
+}
+
+a {
+  color: $main-color;
+  text-decoration: none;
+  &:visited {
+    color: $main-color;
+  }
+  &:hover {
+    color: $main-color;
+  }
+  &:active {
+    color: $main-color;
+  }
+}
+
+p {
+  font-family: $display-stack;
+}

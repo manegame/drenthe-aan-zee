@@ -1,0 +1,91 @@
+//
+// PWR Studio
+// WP Theme Template
+//
+
+@charset 'utf-8';
+
+
+//
+// Variables
+//
+
+@import 'variables';
+
+
+//
+// Reset
+//
+
+@import 'helpers/reset';
+
+
+//
+// Utility Mixins and functions
+//
+
+@import 'helpers/mixins';
+@import 'helpers/classes';
+
+
+//
+// Responsive
+//
+
+@import 'responsive/embed';
+@import 'responsive/manager';
+
+
+//
+// Basics
+//
+
+@import 'base/base';
+
+
+//
+// Layout
+//
+
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/main';
+
+
+//
+// Parts
+//
+
+//@import 'parts/index';
+
+
+//
+// Pages
+//
+
+//@import 'pages/index';
+
+
+//
+// Overrides
+//
+
+//@import 'overrides/overrides';
+
+//
+// Vendor
+//
+
+//@import 'vendor/fullpage';
+//@import 'vendor/swiper';
+//@import 'vendor/animate';
+
+
+//
+// Uncomment for debug mode
+//
+
+//$pesticide-debug-outline: true;
+//$pesticide-debug-depth: true;
+
+// @import 'debug/pesticide';
