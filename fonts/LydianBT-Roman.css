@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "LydianBT-Roman";
+    src: url("LydianBT-Roman.eot");
+    src: url("LydianBT-Roman.eot?#iefix") format("embedded-opentype"),
+         url("LydianBT-Roman.woff2") format("woff2"),
+         url("LydianBT-Roman.woff") format("woff"),
+         url("LydianBT-Roman.ttf") format("ttf"),
+         url("LydianBT-Roman.svg#LydianBT-Roman") format("svg");
+    font-style: normal;
+    font-weight: normal;
+}

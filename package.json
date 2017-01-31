@@ -30,7 +30,8 @@
     "gulp-uglify": "^2.0.1",
     "gulp-wrap": "*",
     "imagemin-pngquant": "^4.2.0",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "youtube-iframe": "^1.0.3"
   },
   "dependencies": {
     "browserify": "^13.0.0",

@@ -42,81 +42,28 @@
 
   <!-- <link href='fonts/.css' rel="stylesheet" type="text/css"> -->
   <link href='style.css' rel="stylesheet" type="text/css">
+  <link href='fonts/LydianBT-Roman.css' rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 
-  <p>Drenthe aan Zee</p>
+  <div id="controls">
+    <input type="range" id="progress-bar" min="1" max="5000" steps="1" orient="vertical"></input>
+    <p><span id="current-time"> </span> / <span id="duration"></span></p>
+    <p id="play-toggle">▶️</p>
+    <!-- <p id="pause">⏸</p> -->
+    <p id="mute-toggle">mute</p>
+    <!-- <input type="range" id="volume-input"></input> -->
 
-   <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-  <div id="player"></div>
+  </div>
 
-  
-  <script type="text/javascript">
+  <div class="opening">
+      <!-- <h1>Welkom</h1> -->
+      <div id="player"></div>
+  </div>
 
-  var playlist = {  movie           : 'XMM29e9X9Qc',
-                    vamos           : 'kZHu9l4nrK8',
-                    ark             : 'dyYwz4ygmQs',
-                    couch           : 'n_n4IaQYYIU',
-                    pasfoto         : '5akDcxBU2Ws',
-                    stevin          : 'EV2vlQgX6A0',
-                    mapsOverview    : 'ZvMt-RM2x8w',
-                    mapsHouse       : '8ccRcyy7Jco',
-                    mapsStreet      : 'Z3InHJ7VU9E',
-                    hague           : 'SRRw8uA0EYs',
-                    trailer         : 'OQUnH2m7Hbk',
-                    afsluitdijk     : 'Vwg9OamdZJk'
-            }
-
-  console.log(videoIds.opening);
-
-  // 2. This code loads the IFrame Player API code asynchronously.
-  var tag = document.createElement('script');
-
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  // 3. This function creates an <iframe> (and YouTube player)
-  //    after the API code downloads.
-  var player;
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      height: '390',
-      width: '640',
-      videoId: playlist.movie,
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-
-  // 4. The API will call this function when the video player is ready.
-  function onPlayerReady(event) {
-    event.target.playVideo();
-  }
-
-  // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
-  var done = false;
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-      setTimeout(stopVideo, 6000);
-      done = true;
-    }
-  }
-
-  function stopVideo() {
-    player.stopVideo();
-  }
-
-  </script>
-
-
-  <!-- <script src='app.min.js'></script> -->
+  <script src='app.min.js'></script>
 
 </body>
 
