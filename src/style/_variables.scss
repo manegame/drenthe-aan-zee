@@ -39,3 +39,29 @@ $breakpoints: (
   'large': (max-width: 1600px),
   'short': (max-height: 600px),
 );
+
+
+
+$track-width: 100vh !default;
+$track-height: 25px !default;
+$track-color: rgb(0, 16, 73) !default;
+$thumb-color: #b8b8b8 !default;
+$thumb-border-color: #b8b8b8 !default;
+
+$thumb-radius: 0 !default;
+$thumb-height: 25px !default;
+$thumb-width: 25px !default;
+$thumb-shadow-size: 0 !default;
+$thumb-shadow-blur: 0 !default;
+$thumb-shadow-color: transparent !default;
+$thumb-border-width: 2px !default;
+
+// 100vh: 100px !default;
+$track-shadow-size: 0 !default;
+$track-shadow-blur: 0 !default;
+$track-shadow-color: transparent !default;
+$track-border-width: 0 !default;
+$track-border-color: #cfd8dc !default;
+
+$track-radius: 0 !default;
+$contrast: 0 !default;

@@ -3,6 +3,7 @@
     "use strict";
 
     global.$    = require("jquery");
+                  // require("jquery-ui-dist");
 
     var YouTubeIframeLoader = require('youtube-iframe');
 
@@ -23,14 +24,21 @@
     console.log(videoIds.movie);
 
     var player;
+    var chapterPlayer;
     var time_update_interval;
+
+    var videoWidth;
+    var progressBarWidth = 25;
 
     var rangeMax = 5000;
 
     YouTubeIframeLoader.load(function(YT) {
+
+        videoWidth = $(window).width() - progressBarWidth;
+
         player = new YT.Player('player', {
-          height: ($(window).width() * 9) / 16 ,
-          width: $(window).width(),
+          height: videoWidth * 9 / 16 ,
+          width: videoWidth,
           videoId: videoIds.movie,
           playerVars: {
             'color' : 'white',
@@ -43,6 +51,7 @@
             'onStateChange': onPlayerStateChange
           }
         });
+
       });
 
     function onPlayerReady(event) {
@@ -52,6 +61,7 @@
       // Update the controls on load
       updateTimerDisplay();
       updateProgressBar();
+      resizeVideo();
 
       // Clear any old interval.
       clearInterval(time_update_interval);
@@ -129,17 +139,56 @@
 
     $('#volume-input').on('change', function () {
       player.setVolume($(this).val());
+
     });
 
     $(window).on('resize' , function(){
-      console.log('fire in the hole');
-      player.setSize( $(window).width() , ($(window).width() * 9) / 16 );
-
+      resizeVideo();
     });
+
+    function resizeVideo () {
+      videoWidth = $(window).width() - progressBarWidth;
+
+      console.log('fire in the hole');
+
+      player.setSize( videoWidth , videoWidth * 9 / 16 );
+
+      $('#player').css({
+        "margin-top" : ($(window).height() - (videoWidth * 9 / 16) ) / 2,
+        "margin-left" : progressBarWidth
+      });
+    }
 
 
     function onPlayerStateChange(event) {
-      console.log(player.getPlayerState());
+      var state = player.getPlayerState();
+      console.log(state);
+      if(state === 0) {
+        $('.choice').show();
+      }
     }
+
+
+    $('.choice > p').on('click' , function () {
+
+      var choice = $(this).attr('id');
+
+      if( choiche) {
+        console.log(choice);
+        player.loadVideoById({
+          videoId : videoIds.vamos,
+        });
+      } else if (choiche === 'ch-2') {
+        player.loadVideoById({
+          videoId : videoIds.stevin,
+        });
+      } else if (choiche === 'ch-3') {
+        player.loadVideoById({
+          videoId : videoIds.mapsHouse,
+        });
+      }
+
+      $('.choice').hide();
+    })
 
 }());

@@ -1,5 +1,7 @@
 body {
   @include hide-scroll;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -12,23 +14,28 @@ html {
   background: black;
   text-align: center;
   #player {
-      @include center;
-      transition: all 3s ease-out;
-  }
-  h1 {
-    color: white;
-    font-size: 20vh;
-    line-height: 18vh;
-    @include center;
-    top: 45%;
-    cursor: pointer;
+      // DEBUG
+      // border: 1px dashed red;
+      // transition: all 3s ease-out;
   }
 }
 
+h1 {
+  color: white;
+  font-size: 20vh;
+  line-height: 18vh;
+  @include center;
+  top: 45%;
+  cursor: pointer;
+}
+
 #controls {
-  position: absolute;
-  width: auto;
-  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  bottom: 0;
+  left: $track-height;
+  margin-left: 10px;
+  margin-bottom: 10px;
   p {
     color: white;
   }
@@ -36,114 +43,45 @@ html {
 }
 
 
+.choice {
+  height: 100vh;
+  width: 100vw;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  color: white;
+
+  background: blue;
+
+  display: none;
+
+  z-index: 999999999;
+  p {
+    color: black;
+  }
+}
+
+
+
+
+
 // VERTICAL
 //
 
-input[type=range][orient=vertical] {
-    writing-mode: bt-lr; /* IE */
-    -webkit-appearance: slider-vertical; /* WebKit */
-    width: 8px;
-    height: 100vh;
-    padding: 0 5px;
-}
+// input[type=range][orient=vertical] {
+//     writing-mode: bt-lr; /* IE */
+//     -webkit-appearance: slider-vertical; /* WebKit */
+//     height: 90vh;
+// }
 
-
-
-// BASE
+// // Styling Cross-Browser Compatible Range Inputs with Sass
+// // Github: https://github.com/darlanrod/input-range-sass
+// // Author: Darlan Rod https://github.com/darlanrod
+// // Version 1.3.0
+// // MIT License
 //
-
-input[type=range] {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
-  background: transparent; /* Otherwise white in Chrome */
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-input[type=range]:focus {
-  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
-}
-
-input[type=range]::-ms-track {
-  width: 100%;
-  cursor: pointer;
-
-  /* Hides the slider so custom styles can be added */
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-
-// THUMB
-//
-
-/* Special styling for WebKit/Blink */
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
-}
-
-/* All the same stuff for Firefox */
-input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-/* All the same stuff for IE */
-input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-
-// Styling Cross-Browser Compatible Range Inputs with Sass
-// Github: https://github.com/darlanrod/input-range-sass
-// Author: Darlan Rod https://github.com/darlanrod
-// Version 1.3.0
-// MIT License
-
-$track-color: #fff !default;
-$thumb-color: #ccc !default;
-
-$thumb-radius: 12px !default;
-$thumb-height: 24px !default;
-$thumb-width: 24px !default;
-$thumb-shadow-size: 0 !default;
-$thumb-shadow-blur: 0 !default;
-$thumb-shadow-color: rgba(0, 0, 0, .2) !default;
-$thumb-border-width: 2px !default;
-$thumb-border-color: #eceff1 !default;
-
-$track-width: 100% !default;
-$track-height: 8px !default;
-$track-shadow-size: 0 !default;
-$track-shadow-blur: 0 !default;
-$track-shadow-color: rgba(0, 0, 0, .2) !default;
-$track-border-width: 2px !default;
-$track-border-color: #cfd8dc !default;
-
-$track-radius: 5px !default;
-$contrast: 0 !default;
 
 @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
   box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
@@ -167,8 +105,14 @@ $contrast: 0 !default;
 }
 
 [type='range'] {
+
+  position: absolute;
+  z-index: 999999;
+  transform-origin: top left;
+  transform: rotateZ(270deg) translateX(calc(-100%));
+
   -webkit-appearance: none;
-  margin: $thumb-height / 2 0;
+  margin: 0;
   width: $track-width;
 
   &:focus {
@@ -191,21 +135,18 @@ $contrast: 0 !default;
     @include track;
     @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
     background: $track-color;
-    border: $track-border-width solid $track-border-color;
     border-radius: $track-radius;
   }
 
   &::-webkit-slider-thumb {
     @include thumb;
     -webkit-appearance: none;
-    margin-top: ((-$track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2);
   }
 
   &::-moz-range-track {
     @include track;
     @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
     background: $track-color;
-    border: $track-border-width solid $track-border-color;
     border-radius: $track-radius;
   }
 

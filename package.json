@@ -31,6 +31,8 @@
     "gulp-wrap": "*",
     "imagemin-pngquant": "^4.2.0",
     "jquery": "^3.1.1",
+    "jquery-slider": "0.0.1",
+    "jquery-ui": "^1.12.1",
     "youtube-iframe": "^1.0.3"
   },
   "dependencies": {
@@ -42,6 +44,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "image-loaded": "^0.0.2",
     "imagesloaded": "^4.1.1",
+    "jquery-ui-dist": "^1.12.1",
     "socket.io-client": "^1.7.1",
     "standard": "^7.1.1",
     "vinyl-buffer": "^1.0.0",

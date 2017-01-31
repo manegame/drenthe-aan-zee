@@ -49,18 +49,26 @@
 <body>
 
   <div id="controls">
-    <input type="range" id="progress-bar" min="1" max="5000" steps="1" orient="vertical"></input>
     <p><span id="current-time"> </span> / <span id="duration"></span></p>
-    <p id="play-toggle">▶️</p>
-    <!-- <p id="pause">⏸</p> -->
+    <p id="play-toggle">play</p>
     <p id="mute-toggle">mute</p>
-    <!-- <input type="range" id="volume-input"></input> -->
-
   </div>
+
+<input type="range" id="progress-bar" min="1" max="5000" steps="1"></input>
 
   <div class="opening">
       <!-- <h1>Welkom</h1> -->
       <div id="player"></div>
+  </div>
+
+  <!-- <div class="chapter">
+    <div id="chapter-player"></div>
+  </div> -->
+
+  <div class="choice">
+    <p id="ch-1">Choice 1</p>
+    <p id="ch-2">Choice 2</p>
+    <p id="ch-3">Choice 3</p>
   </div>
 
   <script src='app.min.js'></script>
