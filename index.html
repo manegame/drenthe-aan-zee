@@ -49,26 +49,25 @@
 <body>
 
   <div id="controls">
-    <p><span id="current-time"> </span> / <span id="duration"></span></p>
+    <p id="skip-video">skip</p>
+    <p id="next-video">Explore the Dutch Waters</p>
     <p id="play-toggle">play</p>
     <p id="mute-toggle">mute</p>
+    <p><span id="current-time"> </span> / <span id="duration"></span></p>
   </div>
 
-<input type="range" id="progress-bar" min="1" max="5000" steps="1"></input>
+<input type="range" id="progress-bar" value="1" min="1" max="5000" steps="1"></input>
 
   <div class="opening">
       <!-- <h1>Welkom</h1> -->
       <div id="player"></div>
   </div>
 
-  <!-- <div class="chapter">
-    <div id="chapter-player"></div>
-  </div> -->
-
   <div class="choice">
-    <p id="ch-1">Choice 1</p>
-    <p id="ch-2">Choice 2</p>
-    <p id="ch-3">Choice 3</p>
+    <p id="movie">Sea the movie</p>
+    <p id="trailer">Sea the trailer</p>
+    <p id="book">Sea the book</p>
+    <p id="stream">Decide what you sea</p>
   </div>
 
   <script src='app.min.js'></script>

@@ -53,13 +53,26 @@ h1 {
 
   color: white;
 
-  background: blue;
+  background: transparent;
 
   display: none;
 
   z-index: 999999999;
-  p {
-    color: black;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    text-align: center;
+
+    p {
+      color: white;
+      font-size: 10vh;
+      line-height: 10vh;
+      display: block;
+      cursor: pointer;
+    }
   }
 }
 

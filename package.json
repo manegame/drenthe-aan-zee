@@ -42,6 +42,7 @@
     "debounce": "^1.0.0",
     "debowerify": "^1.4.1",
     "gulp-sourcemaps": "^1.6.0",
+    "howler": "^2.0.2",
     "image-loaded": "^0.0.2",
     "imagesloaded": "^4.1.1",
     "jquery-ui-dist": "^1.12.1",

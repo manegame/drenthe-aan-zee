@@ -3,7 +3,10 @@
     "use strict";
 
     global.$    = require("jquery");
-                  // require("jquery-ui-dist");
+
+    var howler  = require("howler");
+
+    // console.log(howler);
 
     var YouTubeIframeLoader = require('youtube-iframe');
 
@@ -18,19 +21,27 @@
                       mapsStreet      : 'Z3InHJ7VU9E',
                       hague           : 'SRRw8uA0EYs',
                       trailer         : 'OQUnH2m7Hbk',
-                      afsluitdijk     : 'Vwg9OamdZJk'
+                      afsluitdijk     : 'Vwg9OamdZJk',
+                      struggle        : 'U5VG0NvcKNI'
               }
+
+    var stream = [ videoIds.movie, videoIds.mapsStreet, videoIds.hague, videoIds.trailer ];
 
     console.log(videoIds.movie);
 
     var player;
     var chapterPlayer;
     var time_update_interval;
+    var menutime;
+
+    var choice;
 
     var videoWidth;
     var progressBarWidth = 25;
 
     var rangeMax = 5000;
+
+    var water = ["audio/01.mp3","audio/02.mp3","audio/03.mp3","audio/04.mp3","audio/05.mp3","audio/06.mp3","audio/07.mp3","audio/08.mp3","audio/09.mp3","audio/10.mp3","audio/11.mp3","audio/12.mp3","audio/13.mp3","audio/14.mp3"];
 
     YouTubeIframeLoader.load(function(YT) {
 
@@ -137,6 +148,11 @@
         }
     });
 
+    $('#next-video').on('click' , function() {
+      player.nextVideo();
+      console.log('next');
+    });
+
     $('#volume-input').on('change', function () {
       player.setVolume($(this).val());
 
@@ -147,48 +163,98 @@
     });
 
     function resizeVideo () {
+
       videoWidth = $(window).width() - progressBarWidth;
 
-      console.log('fire in the hole');
+      if($('.choice').hasClass('active')) {
+        console.log('menu');
 
-      player.setSize( videoWidth , videoWidth * 9 / 16 );
+        player.setSize( ($(window).height() * 16 ) / 9 , $(window).height() );
 
-      $('#player').css({
-        "margin-top" : ($(window).height() - (videoWidth * 9 / 16) ) / 2,
-        "margin-left" : progressBarWidth
-      });
+        $('#player').css({
+          "margin-top" : 0,
+          "margin-left" : progressBarWidth
+        });
+
+      }
+      if( !$('.choice').hasClass('active') ) {
+
+        console.log('fire in the hole');
+
+        player.setSize( videoWidth , videoWidth * 9 / 16 );
+
+        $('#player').css({
+          "margin-top" : ($(window).height() - (videoWidth * 9 / 16) ) / 2,
+          "margin-left" : progressBarWidth
+        });
+      }
     }
 
+    function playWater() {
+      console.log('water');
+
+      var sound = new Howl({
+        src: [ '' +water[Math.floor(Math.random() * water.length)]+ '' ]
+      });
+
+      sound.play();
+    }
+
+    function randomInterval (min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function openChoices() {
+
+      player.loadVideoById({
+        videoId : videoIds.struggle,
+        startSeconds : menutime,
+        loop : 1
+      });
+      player.mute();
+
+      $('.choice').addClass('active').show();
+
+      resizeVideo();
+
+      window.setInterval( function(){
+        playWater()
+      }, randomInterval(1000, 4000) );
+
+    }
 
     function onPlayerStateChange(event) {
       var state = player.getPlayerState();
       console.log(state);
-      if(state === 0) {
-        $('.choice').show();
+      if(state === 0 || state === 5 ) {
+        openChoices();
       }
     }
+
+    $('#skip-video').on('click', function() {
+      console.log('yo');
+      player.stopVideo();
+    });
 
 
     $('.choice > p').on('click' , function () {
 
-      var choice = $(this).attr('id');
+      menutime = player.getCurrentTime();
+      console.log(menutime);
 
-      if( choiche) {
-        console.log(choice);
+      choice = $(this).attr('id');
+
+      if (choice === 'stream') {
+        player.loadPlaylist({
+                  playlist: stream
+                });
+      } else {
         player.loadVideoById({
-          videoId : videoIds.vamos,
-        });
-      } else if (choiche === 'ch-2') {
-        player.loadVideoById({
-          videoId : videoIds.stevin,
-        });
-      } else if (choiche === 'ch-3') {
-        player.loadVideoById({
-          videoId : videoIds.mapsHouse,
+          videoId : videoIds[choice],
         });
       }
 
-      $('.choice').hide();
+      $('.choice').removeClass('active').hide();
     })
 
 }());
