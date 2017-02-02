@@ -49,12 +49,13 @@
 <body>
 
   <div id="controls">
-    <p id="skip-video">skip</p>
+    <p id="skip-video">skip / menu</p>
     <p id="next-video">Explore the Dutch Waters</p>
     <p id="play-toggle">play</p>
     <p id="mute-toggle">mute</p>
-    <p><span id="current-time"> </span> / <span id="duration"></span></p>
   </div>
+
+<p id="tooltip"><span id="current-time"> </span> / <span id="duration"></span></p>
 
 <input type="range" id="progress-bar" value="1" min="1" max="5000" steps="1"></input>
 
@@ -64,6 +65,8 @@
   </div>
 
   <div class="choice">
+
+    <p id="title"> <!-- add title --> </p>
     <p id="movie">Sea the movie</p>
     <p id="trailer">Sea the trailer</p>
     <p id="book">Sea the book</p>
