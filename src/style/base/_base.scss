@@ -11,6 +11,8 @@ body {
   font-size: $font-size;
   line-height: $line-height;
   font-family: $drenthe-main;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -29,4 +31,14 @@ a {
 
 p {
   font-family: $drenthe-main;
+}
+
+#play-toggle, #mute-toggle {
+  font-family: $play-pause;
+  cursor: pointer;
+}
+
+#skip-video, #next-video, #tooltip {
+  font-family: $drenthe-sans;
+  cursor: pointer;
 }

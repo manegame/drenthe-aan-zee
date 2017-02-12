@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "AtlasGroteskLight";
+    src: url("atlasgrotesk-light.eot");
+    src: url("atlasgrotesk-light.eot?#iefix") format("embedded-opentype"),
+         url("atlasgrotesk-light.woff2") format("woff2"),
+         url("atlasgrotesk-light.woff") format("woff"),
+         url("atlasgrotesk-light.ttf") format("ttf"),
+         url("atlasgrotesk-light.svg#AtlasGroteskLight") format("svg");
+    font-style: normal;
+    font-weight: 300;
+}

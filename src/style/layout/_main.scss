@@ -2,6 +2,7 @@ body {
   @include hide-scroll;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 html {
@@ -31,22 +32,43 @@ h1 {
 
 #controls {
   z-index: 999;
+
   position: fixed;
-  bottom: 0;
-  left: $track-height;
-  margin-left: 10px;
-  margin-bottom: 10px;
+  bottom: calc(5vh - 5px);
+  line-height: $line-height;
+  left: calc(1vw + 25px + 10px);
   p {
+    display: inline-block;
     color: white;
   }
-
+  #play-toggle, #mute-toggle {
+    width: 40px;
+    height: 40px;
+  }
+  #play-toggle {
+    background-image: url('img/play.svg');
+    &.active {
+      background-image: url('img/pause.svg');
+    }
+  }
+  #mute-toggle {
+    background-image: url('img/mute.svg');
+    &.active {
+      background-image: url('img/unmute.svg');
+    }
+  }
 }
 
-#tooltip {
+#next-video {
+  display: none;
   color: white;
-  position: fixed;
-  left: 35px;
 }
+
+// #tooltip {
+//   color: white;
+//   position: fixed;
+//   left: $progress-bar-width;
+// }
 
 .choice {
   height: 100vh;
@@ -77,29 +99,91 @@ h1 {
       line-height: 10vh;
       display: block;
       cursor: pointer;
+      text-shadow: 0 2px #000000;
     }
   }
 }
 
+#player {
+  transition: all .5s ease;
+  &.blur {
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+  }
+}
+
+#progress-bar {
+  width: $progress-bar-width;
+  display: block;
+  position: absolute;
+  top: 5vh;
+  left: 1vw;
+  height: 90vh;
+  margin: 0;
+  padding: 0;
+}
+
+#loading {
+  position: absolute;
+  transition: all .5s ease;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, 0.5);
+  display: none;
+}
+
+.ui-slider {
+  color: red !important;
+}
+
+#thumb {
+  position: absolute;
+  pointer-events: none;
+  left: 1vw;
+  top: 5vh;
+  left: 1vw;
+  height: 90vh;
+  overflow: hidden;
+  width: $progress-bar-width;
+  img {
+    position: absolute;
+    transition: all .3s ease;
+
+  }
+}
 
 
+// Styling Cross-Browser Compatible Range Inputs with Sass
+// Github: https://github.com/darlanrod/input-range-sass
+// Author: Darlan Rod https://github.com/darlanrod
+// Version 1.3.0
+// MIT License
 
+$track-color: #000 !default;
+$thumb-color: #000 !default;
 
-// VERTICAL
-//
+$thumb-radius: 0 !default;
+$thumb-height: 0 !default;
+$thumb-width: 0 !default;
+$thumb-shadow-size: 0 !default;
+$thumb-shadow-blur: 0 !default;
+$thumb-shadow-color: transparent !default;
+$thumb-border-width: 0 !default;
+$thumb-border-color: #000 !default;
 
-// input[type=range][orient=vertical] {
-//     writing-mode: bt-lr; /* IE */
-//     -webkit-appearance: slider-vertical; /* WebKit */
-//     height: 90vh;
-// }
+$track-width: 100% !default;
+$track-height: 8px !default;
+$track-shadow-size: 1px !default;
+$track-shadow-blur: 1px !default;
+$track-shadow-color: rgba(0, 0, 0, .2) !default;
+$track-border-width: 1px !default;
+$track-border-color: #000 !default;
 
-// // Styling Cross-Browser Compatible Range Inputs with Sass
-// // Github: https://github.com/darlanrod/input-range-sass
-// // Author: Darlan Rod https://github.com/darlanrod
-// // Version 1.3.0
-// // MIT License
-//
+$track-radius: 0 !default;
+$contrast: 0 !default;
 
 @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
   box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
@@ -123,14 +207,9 @@ h1 {
 }
 
 [type='range'] {
-
-  position: absolute;
-  z-index: 999999;
-  transform-origin: top left;
-  transform: rotateZ(270deg) translateX(calc(-100%));
-
-  -webkit-appearance: none;
-  margin: 0;
+  -webkit-appearance: slider-vertical;
+  // -webkit-appearance: none;
+  margin: $thumb-height / 2 0;
   width: $track-width;
 
   &:focus {
@@ -153,18 +232,22 @@ h1 {
     @include track;
     @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
     background: $track-color;
+    border: $track-border-width solid $track-border-color;
     border-radius: $track-radius;
   }
 
   &::-webkit-slider-thumb {
     @include thumb;
     -webkit-appearance: none;
+    display: none;
+    margin-top: ((-$track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2);
   }
 
   &::-moz-range-track {
     @include track;
     @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
     background: $track-color;
+    border: $track-border-width solid $track-border-color;
     border-radius: $track-radius;
   }
 

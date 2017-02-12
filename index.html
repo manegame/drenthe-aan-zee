@@ -40,37 +40,59 @@
   <meta property="og:image" content="">
   <meta property="og:description" content="" />
 
-  <!-- <link href='fonts/.css' rel="stylesheet" type="text/css"> -->
+  <link rel="stylesheet" type="text/css" href="jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $(function(){
+    console.log('aaa');
+    $('#progress-bar').slider({
+      orientation: "vertical",
+      range: "min",
+      min: 1,
+      max: 5000,
+      animate: "fast"
+    });
+  });
+  </script>
+
+
   <link href='style.css' rel="stylesheet" type="text/css">
   <link href='fonts/LydianBT-Roman.css' rel="stylesheet" type="text/css">
+  <link href='fonts/atlasgrotesk-light.css' rel="stylesheet" type="text/css">
+  <link href='fonts/icomoon.css' rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 
   <div id="controls">
-    <p id="skip-video">skip / menu</p>
-    <p id="next-video">Explore the Dutch Waters</p>
-    <p id="play-toggle">play</p>
-    <p id="mute-toggle">mute</p>
-  </div>
+    <p id="play-toggle"></p><br>
+    <p id="mute-toggle"></p><br>
 
-<p id="tooltip"><span id="current-time"> </span> / <span id="duration"></span></p>
+    <p id="skip-video">Menu</p><br>
+
+    <p id="next-video">Now playing: <span></span></p>
+
+    <p id="tooltip"><span id="current-time"> </span> / <span id="duration"></span></p>
+  </div>
 
 <input type="range" id="progress-bar" value="1" min="1" max="5000" steps="1"></input>
 
+  <div id="thumb">
+    <img src="img/thumb.png"/>
+  </div>
+
   <div class="opening">
-      <!-- <h1>Welkom</h1> -->
+      <div id="loading"></div>
       <div id="player"></div>
   </div>
 
   <div class="choice">
-
-    <p id="title"> <!-- add title --> </p>
-    <p id="movie">Sea the movie</p>
-    <p id="trailer">Sea the trailer</p>
-    <p id="book">Sea the book</p>
-    <p id="stream">Decide what you sea</p>
+    <p id="movie">The Movie</p>
+    <p id="trailer">The Trailer</p>
+    <p id="book">The Book</p>
+    <p id="stream">Decide what you Sea</p>
   </div>
 
   <script src='app.min.js'></script>
