@@ -14,41 +14,33 @@ html {
   height: 100vh;
   background: black;
   text-align: center;
-  #player {
-      // DEBUG
-      // border: 1px dashed red;
-      // transition: all 3s ease-out;
-  }
-}
-
-h1 {
-  color: white;
-  font-size: 20vh;
-  line-height: 18vh;
-  @include center;
-  top: 45%;
-  cursor: pointer;
 }
 
 #controls {
   z-index: 999;
-
   position: fixed;
-  bottom: calc(5vh - 5px);
+  bottom: 2vh;
   line-height: $line-height;
-  left: calc(1vw + 25px + 10px);
+  left: calc(1vw + 20px + 10px);
+  @include screen-size('small') {
+    left: calc(2vw + 10px + 10px);
+  }
   p {
     display: inline-block;
     color: white;
   }
-  #play-toggle, #mute-toggle {
+  #play-toggle, #mute-toggle, #next-video{
     width: 40px;
     height: 40px;
+    @include screen-size('small') {
+      width: 30px;
+      height: 30px;
+    }
   }
   #play-toggle {
-    background-image: url('img/play.svg');
+    background-image: url('img/pause.svg');
     &.active {
-      background-image: url('img/pause.svg');
+      background-image: url('img/play.svg');
     }
   }
   #mute-toggle {
@@ -57,22 +49,51 @@ h1 {
       background-image: url('img/unmute.svg');
     }
   }
+  #next-video {
+    display: none;
+    background-image: url('img/next.svg');
+  }
 }
 
-#next-video {
-  display: none;
-  color: white;
+#youtube-blocker {
+  position: fixed;
+  width: 100px;
+  height: 100vh;
+  z-index: 0;
+  bottom: 0;
+  right: 0;
 }
 
-// #tooltip {
-//   color: white;
-//   position: fixed;
-//   left: $progress-bar-width;
-// }
+#controls-right {
+  bottom: 2vh;
+  position: absolute;
+  right: calc(1vw + 10px);
+  @include screen-size('small') {
+    right: 2vw;
+  }
+
+  z-index: 99;
+  #menu {
+    width: 40px;
+    height: 40px;
+    @include screen-size('small') {
+      width: 30px;
+      height: 30px;
+    }
+    background-image: url('img/menu.svg');
+  }
+}
 
 .choice {
-  height: 100vh;
-  width: 100vw;
+  margin-top: 10vh;
+  margin-left: 5vw;
+  height: 80vh;
+  width: 90vw;
+
+  @include screen-size('small') {
+    margin-top: 25vh;
+    height: 50vh;
+  }
 
   position: fixed;
   top: 0;
@@ -87,20 +108,39 @@ h1 {
   z-index: 999999999;
 
   &.active {
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
     text-align: center;
 
     p {
       color: white;
       font-size: 10vh;
-      line-height: 10vh;
+      line-height: 8vh;
       display: block;
       cursor: pointer;
       text-shadow: 0 2px #000000;
+
+      @include screen-size('small') {
+        font-size: 6vh;
+        line-height: 6vh;
+      }
     }
+  }
+}
+
+#title {
+  background: transparent;
+  display: block;
+  position: fixed;
+  color: white;
+  top: calc(5vh - 5px);
+  width: 100vw;
+  text-align: center;
+  @include screen-size('small') {
+    font-size: 3vh;
+    line-height: 3vh;
   }
 }
 
@@ -119,16 +159,44 @@ h1 {
   width: $progress-bar-width;
   display: block;
   position: absolute;
-  top: 5vh;
+  top: 3vh;
   left: 1vw;
-  height: 90vh;
+  height: 94vh;
   margin: 0;
   padding: 0;
 }
 
+#progress {
+  width: $progress-bar-width;
+  position: absolute;
+  pointer-events: none;
+  left: 1vw;
+  top: 3vh;
+  left: 1vw;
+  height: 94vh;
+  overflow: hidden;
+  @include screen-size('small') {
+    left: 2vw;
+    width: 10px;
+  }
+  img {
+    position: absolute;
+    transition: all .3s ease;
+    &.loading {
+      animation: loading 2s infinite;
+    }
+  }
+}
+
+@keyframes loading {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 #loading {
   position: absolute;
-  transition: all .5s ease;
+  // transition: all .5s ease;
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0, 0.5);
@@ -137,22 +205,6 @@ h1 {
 
 .ui-slider {
   color: red !important;
-}
-
-#thumb {
-  position: absolute;
-  pointer-events: none;
-  left: 1vw;
-  top: 5vh;
-  left: 1vw;
-  height: 90vh;
-  overflow: hidden;
-  width: $progress-bar-width;
-  img {
-    position: absolute;
-    transition: all .3s ease;
-
-  }
 }
 
 
@@ -211,6 +263,7 @@ $contrast: 0 !default;
   // -webkit-appearance: none;
   margin: $thumb-height / 2 0;
   width: $track-width;
+  opacity: 0;
 
   &:focus {
     outline: 0;

@@ -12,6 +12,7 @@
     var videoIds = {  movie           : 'XMM29e9X9Qc',
                       book            : '2rJZ4Tw8Ze4',
                       trailer         : 'OQUnH2m7Hbk',
+                      credits         : 'jH5vL3v3nm8',
                       maps            : 'ZvMt-RM2x8w',
                       maps1           : '8ccRcyy7Jco',
                       maps2           : 'Z3InHJ7VU9E',
@@ -31,7 +32,30 @@
                       scenes2         : 'uNU4a6HBAds',
                       scenes3         : 'n_n4IaQYYIU',
                       scenes4         : 'AOmtkg4NyMM',
-                      scenes5         : 'TNUyJXkQjQA'
+                      scenes5         : 'TNUyJXkQjQA',
+                      scenes6         : 'DCX3-LeNurU',
+                      scenes7         : 'c_gGPrVzYuE',
+                      scenes8         : 'EVKCksIfTyI',
+                      scenes9         : 'CEFW1yONrYg',
+                      scenes10        : 'tVfxNwPVFMQ',
+                      scenes11        : 'tieJvVRUa_o',
+                      scenes12        : 'dTqqT_yWSg4',
+                      scenes13        : 'klrSJi1fe9k',
+                      scenes14        : 'srT5ShkdJYY',
+                      scenes15        : 'OW0ogQPbKsM',
+                      scenes16        : 'PrX2tgd0Txo',
+                      scenes17        : 'umHs-OaqCHQ',
+                      scenes18        : 'BC503_okeCg',
+                      scenes19        : 'E3LfWAWii_w',
+                      scenes20        : '47uGqQfTfoE',
+                      scenes21        : 'Lnjsau3wdvo',
+                      scenes22        : 'hWed1Hv9Bvk',
+                      scenes23        : 'FBkKUBB-tZM',
+                      scenes24        : 'A-hiHpzHmdM',
+                      scenes25        : '7qFbGwJwHT0',
+                      scenes26        : 'bBUMPiol-4w',
+                      scenes27        : 'AyXkeSQACV8',
+                      scenes28        : 'vn3lBRFX-n0'
               }
 
     var stream = [    videoIds.maps,
@@ -53,7 +77,30 @@
                       videoIds.scenes2,
                       videoIds.scenes3,
                       videoIds.scenes4,
-                      videoIds.scenes5
+                      videoIds.scenes5,
+                      videoIds.scenes6,
+                      videoIds.scenes7,
+                      videoIds.scenes8,
+                      videoIds.scenes9,
+                      videoIds.scenes10,
+                      videoIds.scenes11,
+                      videoIds.scenes12,
+                      videoIds.scenes13,
+                      videoIds.scenes14,
+                      videoIds.scenes15,
+                      videoIds.scenes16,
+                      videoIds.scenes17,
+                      videoIds.scenes18,
+                      videoIds.scenes19,
+                      videoIds.scenes20,
+                      videoIds.scenes21,
+                      videoIds.scenes22,
+                      videoIds.scenes23,
+                      videoIds.scenes24,
+                      videoIds.scenes25,
+                      videoIds.scenes26,
+                      videoIds.scenes27,
+                      videoIds.scenes28
                   ];
 
     var player;
@@ -61,16 +108,20 @@
     var time_update_interval;
     var menutime;
 
-    var choice;
-
     var videoWidth;
     var progressBarWidth = 25;
 
     var rangeMax = 5000;
 
+    var choice = false;
+
     var thisRandom = Math.floor(Math.random() * stream.length);
 
+    var showIt;
+
     var water = ["audio/01.mp3","audio/02.mp3","audio/03.mp3","audio/04.mp3","audio/05.mp3","audio/06.mp3","audio/07.mp3","audio/08.mp3","audio/09.mp3","audio/10.mp3","audio/11.mp3","audio/12.mp3","audio/13.mp3","audio/14.mp3"];
+
+    var streaming = false;
 
     YouTubeIframeLoader.load(function(YT) {
 
@@ -134,12 +185,20 @@
     }
 
     function displayTitle () {
+      console.log('show title');
+
+      $('#title > #current').empty()
+
       // display current
       var current = player.getVideoData().title;
       current = current.split('Drenthe aan Zee |');
 
-      $('#next-video > span').empty().append(current);
+      document.title = "Drenthe aan Zee" + current;
 
+      $('#title > #current').append(current);
+      $('#title').show();
+
+      showIt =  setTimeout(function() { $('#title').fadeOut(500); }, 5000);
     }
 
     $('#progress-bar').on('mouseup touchend', function (e) {
@@ -152,6 +211,13 @@
       player.seekTo(newTime);
 
     });
+
+    function hideTitle() {
+      clearTimeout(showIt);
+      $('#title').fadeOut(500);
+    }
+
+
 
     // This function is called by initialize()
     function updateProgressBar(){
@@ -170,29 +236,9 @@
         else if (newPoint > 1) { newPlace = height; }
         else { newPlace = height * newPoint + offset; offset -= newPoint; }
 
-        $('#thumb > img').css({
+        $('#progress > img').css({
           "top" : height - newPlace
         });
-
-        displayTitle();
-
-        // var maxHeight = $(window).height();
-        // var tooltipHeight = $('#tooltip').height();
-
-        // rangeMax = 5000
-        // value ranges from 0 to 5000
-
-        // min pixel value = (maxheight - tooltipHeight)
-        // max pixel value = 0
-
-        // 5000 / rangeMax = max pixel value
-
-        // = min pixel value
-        //
-        // console.log(value, rangeMax);
-        // $('#tooltip').css({
-        //   'top' : maxHeight - tooltipHeight
-        // })
     }
 
     $('#play-toggle').on('click', function () {
@@ -201,47 +247,44 @@
 
       if(player.getPlayerState() === 1) {
           player.pauseVideo();
-
-          // button.html('&#xea1c;');
+          button.addClass('active');
       } else if (player.getPlayerState() === 2 || player.getPlayerState() === 0 ){
           player.playVideo();
-          // button.html('&#xea1d;');
+          button.removeClass('active');
       }
 
     });
 
     $('#mute-toggle').on('click', function() {
-        var mute_toggle = $(this);
+        var button = $(this);
 
         if(player.isMuted()){
             player.unMute();
-            // mute_toggle.html('&#xea29;');
+            button.removeClass('active');
         }
-        else{
+        else {
             player.mute();
-            // mute_toggle.html('&#xea2a;');
+            button.addClass('active');
         }
     });
 
     $('#next-video').on('click' , function() {
       player.playVideoAt(thisRandom);
 
-      displayTitle();
-
       thisRandom = Math.floor(Math.random() * stream.length);
-      // nextRandom = Math.floor(Math.random() * stream.length);
+
     });
 
     $(window).on('resize' , function(){
       resizeVideo();
     });
 
+
     function resizeVideo () {
 
       videoWidth = $(window).width();
 
       if($('.choice').hasClass('active')) {
-        console.log('menu');
 
         player.setSize( ($(window).height() * 16 ) / 9 , $(window).height() );
 
@@ -282,12 +325,14 @@
         startSeconds : menutime,
         loop : 1
       });
-      player.mute();
 
-      // $('#player').addClass('blur');
+      player.mute();
+      $('mute-toggle').addClass('active');
+
+      $('#menu, #controls, #title').hide();
       $('.choice').addClass('active').show();
-      $('#controls').hide();
-      $('#progress-bar').hide();
+
+
 
       resizeVideo();
 
@@ -297,26 +342,53 @@
       var state = player.getPlayerState();
       console.log(state);
       if(state === 0 || state === 5 ) {
-        openChoices();
+        // stopped
+        if(!streaming) {
+          openChoices();
+        } else {
+          player.playVideoAt(thisRandom);
+        }
+
+      }
+      if(state === 1) {
+        // playing
+        hideTitle();
+        $('#play-toggle').removeClass('active');
+        $('#loading').fadeOut(500);
+        $('#progress > img').removeClass('loading');
+        if( !$('.choice').hasClass('active') ) {
+            $('#progress, #menu').show();
+            displayTitle();
+        }
+        if( $('.choice').hasClass('active') ) {
+            $('#progress, #menu').hide();
+        }
+      }
+      if(state === 2) {
+        // paused
+        $('#play-toggle').addClass('active');
       }
       if(state === 3 ) {
-        $('#loading').fadeIn(500);
-        $('#progress-bar, #thumb').hide();
-      } else {
-        $('#loading').fadeOut(500);
-        $('#progress-bar, #thumb').show();
+        if( !$('.choice').hasClass('active') ) {
+          $('#loading').fadeIn(500);
+          $('#progress > img').addClass('loading');
+        }
+        if( $('.choice').hasClass('active') ) {
+            $('#progress, #menu').hide();
+        }
       }
     }
 
-    $('#skip-video').on('click', function() {
+    $('#menu').on('click', function() {
+      streaming = false;
       player.stopVideo();
     });
 
-    $('.choice > p').on('mouseenter', function() {
+    $('.choice p > span').on('mouseenter', function() {
       playWater();
     });
 
-    $('.choice > p').on('click' , function () {
+    $('.choice p > span').on('click' , function () {
 
       menutime = player.getCurrentTime();
       console.log(menutime);
@@ -326,21 +398,30 @@
       var randomVideo = Math.floor(Math.random() * stream.length);
 
       if (choice === 'stream') {
+        streaming = true;
         player.loadPlaylist({
                   playlist : stream,
                   index    : randomVideo
                 });
-      } else {
+        $('#next-video').css({ 'display' : 'inline-block' });
+      }
 
-        player.loadVideoById({
-          videoId : videoIds[choice],
-        });
+      else {
+
+      streaming = false;
+      $('#next-video').css({ 'display' : 'none' });
+
+      player.loadVideoById({
+        videoId : videoIds[choice],
+      });
+
+      player.unMute();
+      $('mute-toggle').removeClass('active');
 
       }
 
-      // $('#player').removeClass('blur');
       $('.choice').removeClass('active').hide();
-      $('#controls').show();
+      $('#controls, #title').show();
       $('#progress-bar').show();
       resizeVideo();
     });

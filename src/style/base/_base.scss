@@ -1,7 +1,7 @@
 * {
   &::selection {
-    background: $main-color;
-    color: $background-color;
+    background: transparent;
+    color: transparent;
   }
 }
 
@@ -33,12 +33,35 @@ p {
   font-family: $drenthe-main;
 }
 
-#play-toggle, #mute-toggle {
+#play-toggle, #mute-toggle, #next-video {
   font-family: $play-pause;
   cursor: pointer;
 }
 
-#skip-video, #next-video, #tooltip {
+#menu, #title, #timestamp {
   font-family: $drenthe-sans;
   cursor: pointer;
+}
+
+#timestamp {
+  width: 45px;
+  margin-left: -10px;
+  font-size: 14px;
+  text-align: right;
+  @include screen-size('small') {
+    width: 35px;
+    font-size: 10px;
+    text-align: right;
+  }
+}
+
+#current-time {
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid white;
+  line-height: 20px;
+}
+
+#duration {
+  line-height: 21px;
 }
