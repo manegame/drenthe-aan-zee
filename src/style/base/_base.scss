@@ -33,7 +33,7 @@ p {
   font-family: $drenthe-main;
 }
 
-#play-toggle, #mute-toggle, #next-video {
+#play-toggle, #mute-toggle, #next-video, #fullscreen {
   font-family: $play-pause;
   cursor: pointer;
 }
@@ -64,4 +64,8 @@ p {
 
 #duration {
   line-height: 21px;
+}
+
+#controls, #controls-right, #progress, .choice {
+  z-index: 99999;
 }

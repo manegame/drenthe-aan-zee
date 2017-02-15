@@ -45,7 +45,6 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $(function(){
-    console.log('aaa');
     $('#progress-bar').slider({
       orientation: "vertical",
       range: "min",
@@ -66,40 +65,50 @@
 
 <body>
 
-  <div class="opening">
-      <div id="loading"></div>
-      <div id="player"></div>
+  <div id="initial">
+    <!-- LOADING YOUTUBE API -->
   </div>
 
-  <div id="controls">
-      <p id="timestamp"><span id="current-time"> </span><br><span id="duration"></span></p><br>
+  <div id="wrap">
 
-      <p id="play-toggle"></p>
-      <p id="mute-toggle"></p>
-      <p id="next-video"></p>
+    <div class="opening">
+        <div id="loading"></div>
+        <div id="player"></div>
+    </div>
+
+    <div id="progress">
+      <img src="img/thumb.png"/>
+    </div>
+
+    <div id="controls">
+        <p id="timestamp"><span id="current-time"> </span><br><span id="duration"></span></p><br>
+
+        <p id="play-toggle"></p>
+        <p id="mute-toggle"></p>
+        <p id="fullscreen"></p>
+        <p id="next-video"></p>
+    </div>
+
+    <p id="title"><span id="playing"></span><span id="current"></span></p>
+
+    <div id="controls-right">
+      <p id="menu"></p>
+    </div>
+
+    <div class="choice">
+      <p id="ch-1"><span id="movie">The Movie </span></p>
+      <p id="ch-2"><span id="trailer">The Trailer </span></p>
+      <p id="ch-3"><span id="book">The Book </span></p>
+      <p id="ch-4"><span id="stream">Decide what you sea</span></p>
+      <p id="ch-5"><span id="credits">Credits</span></p>
+    </div>
+
   </div>
 
-  <div id="controls-right">
-    <p id="menu"></p>
-  </div>
-
-  <p id="title"><span id="playing"></span><span id="current"></span></p>
 
   <div id="youtube-blocker"></div>
 
   <input type="range" id="progress-bar" value="1" min="1" max="5000" steps="1"></input>
-
-  <div id="progress">
-    <img src="img/thumb.png"/>
-  </div>
-
-  <div class="choice">
-    <p id="ch-1"><span id="movie">The Movie </span></p>
-    <p id="ch-2"><span id="trailer">The Trailer </span></p>
-    <p id="ch-3"><span id="book">The Book </span></p>
-    <p id="ch-4"><span id="stream">Decide what you sea</span></p>
-    <p id="ch-5"><span id="credits">Credits</span></p>
-  </div>
 
   <script src='app.min.js'></script>
 

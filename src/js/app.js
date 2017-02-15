@@ -4,9 +4,6 @@
 
     var howler  = require("howler");
 
-
-    // console.log(howler);
-
     var YouTubeIframeLoader = require('youtube-iframe');
 
     var videoIds = {  movie           : 'XMM29e9X9Qc',
@@ -113,15 +110,16 @@
 
     var rangeMax = 5000;
 
-    var choice = false;
-
+    var check;
     var thisRandom = Math.floor(Math.random() * stream.length);
+    var pastRandom = [];
 
     var showIt;
 
     var water = ["audio/01.mp3","audio/02.mp3","audio/03.mp3","audio/04.mp3","audio/05.mp3","audio/06.mp3","audio/07.mp3","audio/08.mp3","audio/09.mp3","audio/10.mp3","audio/11.mp3","audio/12.mp3","audio/13.mp3","audio/14.mp3"];
 
-    var streaming = false;
+    var streaming = false,
+        choice = false;
 
     YouTubeIframeLoader.load(function(YT) {
 
@@ -146,6 +144,8 @@
       });
 
     function onPlayerReady(event) {
+      $('#initial').fadeOut(500);
+
       event.target.playVideo();
       // event.target.mute();
 
@@ -187,37 +187,24 @@
     function displayTitle () {
       console.log('show title');
 
-      $('#title > #current').empty()
-
       // display current
       var current = player.getVideoData().title;
       current = current.split('Drenthe aan Zee |');
 
       document.title = "Drenthe aan Zee" + current;
 
+      $('#title > #current').empty();
       $('#title > #current').append(current);
-      $('#title').show();
+      $('#title').fadeIn(300).css("display","inline-block");
 
-      showIt =  setTimeout(function() { $('#title').fadeOut(500); }, 5000);
+      showIt = setTimeout(function() { $('#title').fadeOut(500); }, 5000);
     }
-
-    $('#progress-bar').on('mouseup touchend', function (e) {
-
-      // Calculate the new time for the video.
-      // new time in seconds = total duration in seconds * ( value of range input / 100 )
-      var newTime = player.getDuration() * (e.target.value / rangeMax);
-
-      // Skip video to new time.
-      player.seekTo(newTime);
-
-    });
 
     function hideTitle() {
       clearTimeout(showIt);
+      console.log(showIt);
       $('#title').fadeOut(500);
     }
-
-
 
     // This function is called by initialize()
     function updateProgressBar(){
@@ -241,6 +228,11 @@
         });
     }
 
+
+    //
+    // Buttons
+    //
+
     $('#play-toggle').on('click', function () {
 
       var button = $(this);
@@ -256,29 +248,137 @@
     });
 
     $('#mute-toggle').on('click', function() {
-        var button = $(this);
-
-        if(player.isMuted()){
-            player.unMute();
-            button.removeClass('active');
-        }
-        else {
-            player.mute();
-            button.addClass('active');
-        }
+        toggleMute();
     });
 
+    function newRandom() {
+      // make new random number
+      var tempRandom = Math.floor(Math.random() * stream.length);
+
+      return tempRandom;
+    }
+
+    function selectRandom() {
+      var tryRandom = newRandom();
+
+      if( jQuery.inArray( tryRandom, pastRandom ) >= 0 ) {
+
+        console.log('fail : ' + tryRandom );
+
+        // try again, but not if all elements have been done already
+        if(pastRandom.length === stream.length ) {
+
+          pastRandom = [];
+          selectRandom();
+
+
+        } else {
+          selectRandom();
+        }
+
+      } else {
+        thisRandom = tryRandom;
+        console.log('succes : ' + thisRandom );
+        return;
+      }
+    }
+
+    function nextVideo() {
+
+      check = jQuery.inArray(thisRandom, pastRandom);
+
+      if(pastRandom.length === stream.length ) {
+        // all videos played now. Clear array
+        console.log('all videos played');
+
+        pastRandom = [];
+
+      } else {
+        // not all videos played
+        console.log('not all videos played');
+
+        // if a new random number has been drawn
+        if( !(check >= 0) ) {
+          // play
+          player.playVideoAt(thisRandom);
+
+          // add past video indexes to array
+          pastRandom.push(thisRandom);
+          console.log('played: ' + pastRandom );
+
+          // make new random value
+          selectRandom();
+
+        }
+        // else {
+        //   // if the number has occurred before
+        //   console.log('been there before: ' +  thisRandom );
+        //   thisRandom = Math.floor(Math.random() * stream.length);
+        // }
+
+      }
+
+    }
+
     $('#next-video').on('click' , function() {
-      player.playVideoAt(thisRandom);
-
-      thisRandom = Math.floor(Math.random() * stream.length);
-
+      nextVideo();
     });
 
     $(window).on('resize' , function(){
       resizeVideo();
     });
 
+    //
+    // Fullscreen
+    //
+
+    var playerElement = document.getElementById('wrap');
+    var full = false;
+
+    $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e) {
+        //do something;
+        if (full === false) {
+          $('#fullscreen').addClass('active');
+          full = true;
+        } else {
+          $('#fullscreen').removeClass('active');
+          full = false;
+        }
+    });
+
+    function toggleFullScreen() {
+      if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+       (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+        if (document.documentElement.requestFullScreen) {
+          document.documentElement.requestFullScreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullScreen) {
+          document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+
+      } else {
+        if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        }
+
+      }
+    }
+
+    $('#fullscreen').on('click', function(){
+      console.log('clicked');
+      toggleFullScreen();
+
+    });
+
+
+    //
+    // Resizing
+    //
 
     function resizeVideo () {
 
@@ -304,9 +404,34 @@
       }
     }
 
-    function playWater() {
-      console.log('water');
+    //
+    // Choice menu
+    //
 
+    var mute = false;
+
+    function muteStuff() {
+      $('#mute-toggle').addClass('active');
+      player.mute();
+      mute = true;
+    }
+
+    function unMuteStuff() {
+      $('#mute-toggle').removeClass('active');
+      player.unMute();
+      mute = false;
+    }
+
+    function toggleMute() {
+      console.log('fired' + player.isMuted() );
+      if (mute === false && !player.isMuted() ) {
+        muteStuff();
+      } else {
+        unMuteStuff();
+      }
+    }
+
+    function playWater() {
       var sound = new Howl({
         src: [ '' +water[Math.floor(Math.random() * water.length)]+ '' ]
       });
@@ -326,29 +451,29 @@
         loop : 1
       });
 
-      player.mute();
-      $('mute-toggle').addClass('active');
+      muteStuff();
 
       $('#menu, #controls, #title').hide();
       $('.choice').addClass('active').show();
-
-
 
       resizeVideo();
 
     }
 
+    //
+    // States
+    //
+
     function onPlayerStateChange(event) {
       var state = player.getPlayerState();
-      console.log(state);
+      // console.log(state);
       if(state === 0 || state === 5 ) {
         // stopped
         if(!streaming) {
           openChoices();
         } else {
-          player.playVideoAt(thisRandom);
+          nextVideo();
         }
-
       }
       if(state === 1) {
         // playing
@@ -367,6 +492,7 @@
       if(state === 2) {
         // paused
         $('#play-toggle').addClass('active');
+        hideTitle();
       }
       if(state === 3 ) {
         if( !$('.choice').hasClass('active') ) {
@@ -376,6 +502,7 @@
         if( $('.choice').hasClass('active') ) {
             $('#progress, #menu').hide();
         }
+      hideTitle();
       }
     }
 
@@ -389,6 +516,8 @@
     });
 
     $('.choice p > span').on('click' , function () {
+
+      unMuteStuff();
 
       menutime = player.getCurrentTime();
       console.log(menutime);
@@ -417,13 +546,29 @@
 
       player.unMute();
       $('mute-toggle').removeClass('active');
-
       }
 
       $('.choice').removeClass('active').hide();
-      $('#controls, #title').show();
+      $('#controls').show();
       $('#progress-bar').show();
       resizeVideo();
     });
+
+//
+// Not using?
+//
+
+$('#progress-bar').on('mouseup touchend', function (e) {
+
+  // Calculate the new time for the video.
+  // new time in seconds = total duration in seconds * ( value of range input / 100 )
+  var newTime = player.getDuration() * (e.target.value / rangeMax);
+
+  // Skip video to new time.
+  player.seekTo(newTime);
+
+});
+
+
 
 }());
